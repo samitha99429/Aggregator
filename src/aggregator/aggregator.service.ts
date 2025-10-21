@@ -40,7 +40,7 @@ export class AggregatorService {
   // v1
   async getV1Trips(from: string, destination: string, departTime: string) {
     this.metrices.v1Count++;
-    this.logger.log('Scatter gather request received');
+    this.logger.debug('Scatter gather request received');
 
     let flightsData = null;
     let hotelsData = null;
@@ -204,7 +204,7 @@ async getContextualTrips(from: string, destination: string, departTime: string) 
     });
 
     //keep track of what we are calling
-    const allPromises = [flightPromise, hotelPromise];
+    const tripDataPromises = [flightPromise, hotelPromise];
     const labels = ['flights', 'hotels'];
 
     // if destination is coastal also get events
@@ -213,14 +213,14 @@ async getContextualTrips(from: string, destination: string, departTime: string) 
       const eventPromise = axios.get('http://localhost:3004/events/search', {
         params: { destination },
       });
-      allPromises.push(eventPromise);
+      tripDataPromises.push(eventPromise);
       labels.push('events');
     } else {
       this.logger.log(`${destination} is inland`);
     }
 
     //wait for all promises even if some fail
-    const results = await Promise.allSettled(allPromises);
+    const results = await Promise.allSettled(tripDataPromises);
 
     // make final response object
     const data: any = {};
