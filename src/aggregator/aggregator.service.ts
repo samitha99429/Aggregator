@@ -8,10 +8,10 @@ export class AggregatorService {
   private weatherBreaker = new CircuitBreaker(3,5000,3000);
 
   // Helper function for timeout
-  private async callWithTimeout(promise, timeoutMs: number, label: string) {
+   private async callWithTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> {
     return Promise.race([
       promise,
-      new Promise((_, reject) =>
+      new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error(`${label} timeout after ${timeoutMs}ms`)), timeoutMs),
       ),
     ]);
