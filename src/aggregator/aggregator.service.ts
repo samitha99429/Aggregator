@@ -159,7 +159,7 @@ async getCheapestRoute(from: string, destination: string, departTime: string) {
       if (f.price < cheapestFlight.price) cheapestFlight = f;
     }
 
-    this.logger.log(`Cheapest flight found: ${cheapestFlight.id} arriving at ${cheapestFlight.arriveTime}`);
+    this.logger.debug(`Cheapest flight found: ${cheapestFlight.id} arriving at ${cheapestFlight.arriveTime}`);
 
        //Call hotel service with lateCheckInAvailable = true
     const hotelsRes = await this.callWithTimeout(
@@ -187,7 +187,7 @@ async getCheapestRoute(from: string, destination: string, departTime: string) {
 
 //Branching
 async getContextualTrips(from: string, destination: string, departTime: string) {
-  this.logger.log('Branching request started.');
+  this.logger.verbose('Branching request started.');
 
   
   const coastalPlaces = ['CMB', 'BKK', 'HKT','USA'];
