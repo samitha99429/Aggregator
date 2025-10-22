@@ -9,7 +9,10 @@ export class SearchTripDto {
   @IsNotEmpty()
   destination: string;
 
+  // @IsString()
+  // @IsNotEmpty()
+  // departTime: string;
   @IsString()
   @IsNotEmpty()
-  departTime: string;
+  date: string;
 }
